@@ -1,0 +1,34 @@
+{
+  "name": "news-explorer-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rinata0912/news-explorer-api.git"
+  },
+  "author": "Rinata Baygulova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rinata0912/news-explorer-api/issues"
+  },
+  "homepage": "https://github.com/Rinata0912/news-explorer-api#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "celebrate": "^13.0.4",
+    "express": "^4.17.1",
+    "express-winston": "^4.0.5",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.6",
+    "validator": "^13.5.2",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
