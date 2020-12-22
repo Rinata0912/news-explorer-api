@@ -8,7 +8,7 @@ const ConflictError = require('../errors/conflict-err');
 module.exports.getUser = (req, res, next) => {
   User.find(req.user._id)
     .then((user) => {
-      if(!user) {
+      if (!user) {
         return next(new NotFoundError('Пользователь не найден'));
       }
       return res.send({ data: user });
@@ -35,7 +35,6 @@ module.exports.createUser = (req, res, next) => {
       })
         .then(() => res.send({ message: 'Вы успешно зарегистрированы!' }))
         .catch((err) => {
-          console.log(err);
           if (err.message.match(/validation\sfailed/gi)) {
             return next(new IncorrectDataError('Переданы некорректные данные'));
           }
@@ -61,7 +60,6 @@ module.exports.login = (req, res, next) => {
         return next(new IncorrectDataError('Переданы некорректные данные'));
       }
 
-      console.log(err);
       return next(new NotFoundError('Пользователь не найден'));
     });
 };

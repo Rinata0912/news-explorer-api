@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
-const  { getSavedArticles, createArticle, removeArticle } = require('../controllers/articles');
+const { getSavedArticles, createArticle, removeArticle } = require('../controllers/articles');
 
 router.get('/articles', getSavedArticles);
 router.post('/articles', celebrate({

@@ -14,7 +14,7 @@ const app = express();
 mongoose.connect('mongodb://localhost:27017/news', {
   useNewUrlParser: true,
   useCreateIndex: true,
-    useFindAndModify: false
+  useFindAndModify: false,
 });
 
 app.use(requestLogger);
