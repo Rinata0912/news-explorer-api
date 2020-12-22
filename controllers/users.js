@@ -24,25 +24,18 @@ module.exports.getUser = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-  const {
-    name,
-    about,
-    avatar,
-    email,
-    password,
-  } = req.body;
+  const { name, email, password } = req.body;
 
   bcrypt.hash(password, 10)
     .then((hash) => {
       User.create({
         name,
-        about,
-        avatar,
         email,
         password: hash,
       })
         .then(() => res.send({ message: 'Вы успешно зарегистрированы!' }))
         .catch((err) => {
+          console.log(err);
           if (err.message.match(/validation\sfailed/gi)) {
             return next(new IncorrectDataError('Переданы некорректные данные'));
           }
@@ -68,6 +61,7 @@ module.exports.login = (req, res, next) => {
         return next(new IncorrectDataError('Переданы некорректные данные'));
       }
 
+      console.log(err);
       return next(new NotFoundError('Пользователь не найден'));
     });
 };

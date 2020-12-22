@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const auth = require('./middlewares/auth');
+const bodyParser = require('body-parser');
+const { celebrate, Joi } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const router = require('./routes/index');
+const auth = require('./middlewares/auth');
 
 const { PORT = 3000 } = process.env;
 
@@ -15,6 +18,9 @@ mongoose.connect('mongodb://localhost:27017/news', {
 });
 
 app.use(requestLogger);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -30,7 +36,7 @@ app.post('/signup', celebrate({
   }).unknown(true),
 }), createUser);
 
-app.uer(auth);
+app.use(auth);
 
 app.use('/', router);
 
