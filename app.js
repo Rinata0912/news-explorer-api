@@ -6,12 +6,11 @@ const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
 const auth = require('./middlewares/auth');
-
-const { PORT = 3000 } = process.env;
+const { endpoint, port } = require('./config');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/news', {
+mongoose.connect(endpoint, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -46,7 +45,7 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode || 500).send({ message: err.message });
 });
 
-app.listen(PORT, () => {
+app.listen(port, () => {
   // eslint-disable-next-line no-console
-  console.log(`http://localhost:${PORT}`);
+  console.log(`http://localhost:${port}`);
 });

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { jwtKey } = require('../config');
 const NeedAuthError = require('../errors/need-auth-err');
 
 module.exports = (req, res, next) => {
@@ -13,7 +14,7 @@ module.exports = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, 'some-secret-key');
+    payload = jwt.verify(token, jwtKey);
   } catch (err) {
     return next(new NeedAuthError('Необходима авторизация'));
   }

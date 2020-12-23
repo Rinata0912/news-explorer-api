@@ -4,6 +4,7 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const IncorrectDataError = require('../errors/incorrect-data-err');
 const ConflictError = require('../errors/conflict-err');
+const { jwtKey } = require('../config');
 
 module.exports.getUser = (req, res, next) => {
   User.find(req.user._id)
@@ -52,7 +53,7 @@ module.exports.login = (req, res, next) => {
 
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, jwtKey, { expiresIn: '7d' });
       res.send({ token });
     })
     .catch((err) => {
