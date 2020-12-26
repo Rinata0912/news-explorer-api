@@ -7,6 +7,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
 const auth = require('./middlewares/auth');
 const { endpoint, port } = require('./config');
+const errorHandler = require('./middlewares/error-handler');
 
 const app = express();
 
@@ -41,9 +42,7 @@ app.use('/', router);
 
 app.use(errorLogger);
 
-app.use((err, req, res, next) => {
-  res.status(err.statusCode || 500).send({ message: err.message });
-});
+app.use(errorHandler);
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console

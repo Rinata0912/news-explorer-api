@@ -2,20 +2,27 @@ const Atricle = require('../models/article');
 const NotFoundError = require('../errors/not-found-err');
 const IncorrectDataError = require('../errors/incorrect-data-err');
 const ForbiddenError = require('../errors/forbidden-err');
+const {
+  SAVED_ARTICLES_NOT_FOUND,
+  ARTICLE_NOT_FOUND,
+  ACCESS_DENIED,
+  INCORRECT_DATA,
+  INTERNAL_SERVICE_ERROR,
+} = require('../constants/errors');
 
 module.exports.getSavedArticles = (req, res, next) => {
   Atricle.find({})
     .then((articles) => {
       if (!articles) {
-        return next(new NotFoundError('нет сохраненных статей'));
+        return next(new NotFoundError(SAVED_ARTICLES_NOT_FOUND));
       }
       return res.send({ data: articles });
     })
     .catch((err) => {
       if (err.message.match(/validation\sfailed/ig)) {
-        return next(new IncorrectDataError('Переданы некорректные данные'));
+        return next(new IncorrectDataError(INCORRECT_DATA));
       }
-      return next(new Error('Внутренняя ошибка сервиса'));
+      return next(new Error(INTERNAL_SERVICE_ERROR));
     });
 };
 
@@ -30,9 +37,9 @@ module.exports.createArticle = (req, res, next) => {
     .then((article) => res.send({ data: article }))
     .catch((err) => {
       if (err.message.match(/validation\sfailed/ig)) {
-        return next(new IncorrectDataError('Переданы некорректные данные'));
+        return next(new IncorrectDataError(INCORRECT_DATA));
       }
-      return next(new Error('Внутренняя ошибка сервиса'));
+      return next(new Error(INTERNAL_SERVICE_ERROR));
     });
 };
 
@@ -42,11 +49,11 @@ module.exports.removeArticle = (req, res, next) => {
   Atricle.findById(req.params.articleId).select('+owner')
     .then((article) => {
       if (!article) {
-        return next(new NotFoundError('такой статьи не существует'));
+        return next(new NotFoundError(ARTICLE_NOT_FOUND));
       }
 
       if (article.owner !== userData._id) {
-        return next(new ForbiddenError('Отказано в доступе'));
+        return next(new ForbiddenError(ACCESS_DENIED));
       }
 
       return Atricle.findByIdAndRemove(req.params.articleId)
@@ -54,8 +61,8 @@ module.exports.removeArticle = (req, res, next) => {
     })
     .catch((err) => {
       if (err.message.match(/validation\sfailed/ig) || err.message.match(/failed\sfor\svalue/ig)) {
-        return next(new IncorrectDataError('Переданы некорректные данные'));
+        return next(new IncorrectDataError(INCORRECT_DATA));
       }
-      return next(new Error('Внутренняя ошибка сервиса'));
+      return next(new Error(INTERNAL_SERVICE_ERROR));
     });
 };
