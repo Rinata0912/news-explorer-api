@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi } = require('celebrate');
@@ -8,6 +9,7 @@ const router = require('./routes/index');
 const auth = require('./middlewares/auth');
 const { endpoint, port } = require('./config');
 const errorHandler = require('./middlewares/error-handler');
+const limiter = require('./utils/rateLimiter');
 
 const app = express();
 
@@ -16,6 +18,10 @@ mongoose.connect(endpoint, {
   useCreateIndex: true,
   useFindAndModify: false,
 });
+
+app.use(limiter);
+
+app.use(helmet());
 
 app.use(requestLogger);
 
