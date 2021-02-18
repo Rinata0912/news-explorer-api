@@ -10,7 +10,7 @@ const isProduction = NODE_ENV === 'production';
 
 const jwtKey = isProduction ? JWT_SECRET : 'some-secret-key';
 const endpoint = isProduction ? ENDPOINT : 'mongodb://localhost:27017/news';
-const port = PORT || 3000;
+const port = PORT || 4000;
 
 module.exports = {
   jwtKey,

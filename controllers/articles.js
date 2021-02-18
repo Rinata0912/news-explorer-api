@@ -11,7 +11,7 @@ const {
 } = require('../constants/errors');
 
 module.exports.getSavedArticles = (req, res, next) => {
-  Atricle.find({})
+  Atricle.find({ owner: req.user._id })
     .then((articles) => {
       if (!articles) {
         return next(new NotFoundError(SAVED_ARTICLES_NOT_FOUND));
@@ -28,11 +28,11 @@ module.exports.getSavedArticles = (req, res, next) => {
 
 module.exports.createArticle = (req, res, next) => {
   const {
-    keyword, title, text, date, source, link, image,
+    keyword, title, text, date, source, link, image, id,
   } = req.body;
 
   Atricle.create({
-    keyword, title, text, date, source, link, image, owner: req.user._id,
+    keyword, title, text, date, source, link, image, owner: req.user._id, id,
   })
     .then((article) => res.send({ data: article }))
     .catch((err) => {

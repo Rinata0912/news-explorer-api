@@ -46,6 +46,10 @@ const articleSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
+  id: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('article', articleSchema);

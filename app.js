@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi } = require('celebrate');
+const cors = require('cors');
 const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
@@ -11,6 +12,19 @@ const { endpoint, port } = require('./config');
 const errorHandler = require('./middlewares/error-handler');
 const limiter = require('./utils/rateLimiter');
 
+const allowedCors = [
+  'http://whatsthenews.students.nomoredomains.work',
+  'https://whatsthenews.students.nomoredomains.work',
+  'http://localhost:5000',
+  'http://localhost:3000',
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    callback(null, allowedCors);
+  },
+};
+
 const app = express();
 
 mongoose.connect(endpoint, {
@@ -18,6 +32,8 @@ mongoose.connect(endpoint, {
   useCreateIndex: true,
   useFindAndModify: false,
 });
+
+app.use(cors(corsOptions));
 
 app.use(limiter);
 
