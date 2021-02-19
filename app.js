@@ -13,8 +13,8 @@ const errorHandler = require('./middlewares/error-handler');
 const limiter = require('./utils/rateLimiter');
 
 const allowedCors = [
-  'http://whatsthenews.students.nomoredomains.work',
-  'https://whatsthenews.students.nomoredomains.work',
+  'http://allnews.students.nomoredomains.work',
+  'https://allnews.students.nomoredomains.work',
   'http://localhost:5000',
   'http://localhost:3000',
 ];
