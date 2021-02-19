@@ -21,7 +21,6 @@ const allowedCors = [
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // callback(null, allowedCors);
     if (allowedCors.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
